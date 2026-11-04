@@ -11,12 +11,18 @@ import {
   View,
 } from 'react-native';
 
-export default function App() {
-  const [tasks, setTasks] = useState([]);
+type Task = {
+  id: string;
+  title: string;
+  completed: boolean;
+};
+
+export default function TodoList() {
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [taskText, setTaskText] = useState('');
   const remainingTasks = tasks.filter((task) => !task.completed).length;
 
-  function addTask() {
+  function addTask(): void {
     const title = taskText.trim();
     if (!title) return;
 
@@ -28,7 +34,7 @@ export default function App() {
     Keyboard.dismiss();
   }
 
-  function toggleTask(taskId) {
+  function toggleTask(taskId: string): void {
     setTasks((currentTasks) =>
       currentTasks.map((task) =>
         task.id === taskId ? { ...task, completed: !task.completed } : task,
@@ -36,20 +42,17 @@ export default function App() {
     );
   }
 
-  function deleteTask(taskId) {
+  function deleteTask(taskId: string): void {
     setTasks((currentTasks) => currentTasks.filter((task) => task.id !== taskId));
   }
 
   return (
     <SafeAreaView style={styles.screen}>
-      <StatusBar barStyle="dark-content" backgroundColor="#f4f6f2" />
+      <StatusBar barStyle="dark-content" />
       <View style={styles.content}>
         <View style={styles.header}>
-          <Text style={styles.eyebrow}>MY DAY</Text>
-          <Text style={styles.title}>Things to do</Text>
-          <Text style={styles.subtitle}>
-            {remainingTasks} {remainingTasks === 1 ? 'task' : 'tasks'} left
-          </Text>
+          <Text style={styles.title}>My TodoList</Text>
+          <Text style={styles.subtitle}>Keep your daily tasks listed.</Text>
         </View>
 
         <View style={styles.entryRow}>
@@ -57,7 +60,7 @@ export default function App() {
             accessibilityLabel="New task"
             onChangeText={setTaskText}
             onSubmitEditing={addTask}
-            placeholder="Add a task..."
+            placeholder="Add new task..."
             placeholderTextColor="#8b9189"
             returnKeyType="done"
             style={styles.input}
@@ -69,7 +72,7 @@ export default function App() {
             onPress={addTask}
             style={({ pressed }) => [styles.addButton, pressed && styles.pressed]}
           >
-            <Text style={styles.addButtonText}>+</Text>
+            <Text style={styles.addButtonText}>Add</Text>
           </Pressable>
         </View>
 
@@ -118,65 +121,63 @@ export default function App() {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: '#f4f6f2',
+    backgroundColor: '#ffffff',
   },
   content: {
     flex: 1,
     width: '100%',
-    maxWidth: 620,
+    maxWidth: 720,
     alignSelf: 'center',
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
   },
   header: {
-    paddingTop: 42,
-    paddingBottom: 28,
-  },
-  eyebrow: {
-    color: '#53775b',
-    fontSize: 12,
-    fontWeight: '700',
-    letterSpacing: 1.4,
-    marginBottom: 10,
+    paddingTop: 54,
+    paddingBottom: 30,
   },
   title: {
-    color: '#202820',
-    fontSize: 34,
-    fontWeight: '700',
+    color: '#10b981',
+    fontSize: 32,
+    fontWeight: '800',
   },
   subtitle: {
     color: '#737b73',
     fontSize: 15,
-    marginTop: 7,
+    marginTop: 6,
   },
   entryRow: {
     flexDirection: 'row',
-    gap: 10,
-    marginBottom: 20,
+    gap: 12,
+    marginBottom: 22,
   },
   input: {
     flex: 1,
-    minHeight: 54,
+    minHeight: 56,
     backgroundColor: '#ffffff',
-    borderColor: '#e1e6df',
+    borderColor: '#e5e7eb',
     borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 16,
+    borderRadius: 16,
+    paddingHorizontal: 18,
     color: '#202820',
     fontSize: 16,
+    shadowColor: '#000000',
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 2,
   },
   addButton: {
-    width: 54,
-    height: 54,
+    minWidth: 80,
+    minHeight: 56,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 8,
-    backgroundColor: '#386b46',
+    borderRadius: 16,
+    backgroundColor: '#10b981',
+    paddingHorizontal: 18,
   },
   addButtonText: {
     color: '#ffffff',
-    fontSize: 30,
-    lineHeight: 34,
-    fontWeight: '400',
+    fontSize: 16,
+    fontWeight: '700',
   },
   pressed: {
     opacity: 0.78,
@@ -210,7 +211,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderWidth: 1,
     borderColor: '#e8ebe6',
-    borderRadius: 8,
+    borderRadius: 12,
   },
   checkbox: {
     width: 23,
@@ -223,8 +224,8 @@ const styles = StyleSheet.create({
     marginRight: 13,
   },
   checkboxDone: {
-    backgroundColor: '#386b46',
-    borderColor: '#386b46',
+    backgroundColor: '#10b981',
+    borderColor: '#10b981',
   },
   checkmark: {
     color: '#ffffff',

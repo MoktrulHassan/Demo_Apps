@@ -1,6 +1,6 @@
 # Todo List App
 
-A simple React Native todo list built with Expo. It uses `useState` to add tasks, mark them complete or incomplete, delete them, and show how many remain.
+A TypeScript React Native todo list built with Expo Router. Add tasks, mark them complete or incomplete, delete them, and see how many remain.
 
 ## Run the app
 
@@ -10,11 +10,20 @@ A simple React Native todo list built with Expo. It uses `useState` to add tasks
 
    ```bash
    npm install
-   npx expo start
+   npm run start
    ```
 
 4. Scan the QR code with Expo Go, or press `a` to launch an Android emulator. An iOS simulator requires macOS.
 
-## Submit
+To run in a browser, use `npm run web`. To check TypeScript, use `npm run typecheck`.
 
-Push the project to a GitHub repository and submit its link in Google Classroom. Include a screenshot of the running app and a screenshot of the terminal showing `npx expo start`.
+## Project structure
+
+```text
+component/
+  TodoList.tsx
+src/
+  app/
+    _layout.tsx
+    index.tsx
+```
